@@ -1,11 +1,41 @@
-var coords = {
-  longitude : 48.8669183,
-  latitude: 2.359296
-};
+/*----------------------------------------------
+// Old - Coordonnées en brut
+//----------------------------------------------*/
+// var coords = {
+//   longitude : 48.8669183,
+//   latitude: 2.359296
+// };
 
+/*----------------------------------------------
+// Old - Fonction pour récupérer les arbres
+//----------------------------------------------*/
+// function getTrees(lat, lng) {
+//   return new Promise( function(resolve, reject){
+//     fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=les-arbres&q=&rows=5000&facet=domanialite&facet=arrondissement&facet=libellefrancais&facet=circonferenceencm&facet=hauteurenm&facet=remarquable&geofilter.distance=48.8669183%2C+2.359296%2C+1000')
+//       .then( function( rawData ){
+//         // Tester la requête
+//         if( rawData.ok === true ){
+//           return rawData.json()
+//         }
+//         else{
+//           return reject(rawData)
+//         }
+//       })
+//       .then( function( jsonData ){
+//         return resolve( jsonData )
+//       })
+//       .catch( function( fetchError ){
+//         return reject( fetchError )
+//       });
+//   })
+// }
+
+/*----------------------------------------------
+// New - Fonction pour récupérer les arbres : with my position
+//----------------------------------------------*/
 function getTrees(lat, lng) {
   return new Promise( function(resolve, reject){
-    fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=les-arbres&q=&rows=5000&facet=domanialite&facet=arrondissement&facet=libellefrancais&facet=circonferenceencm&facet=hauteurenm&facet=remarquable&geofilter.distance=48.8669183%2C+2.359296%2C+1000')
+    fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=les-arbres&q=&rows=5000&facet=domanialite&facet=arrondissement&facet=libellefrancais&facet=circonferenceencm&facet=hauteurenm&facet=remarquable&geofilter.distance='+lat+'%2C+'+lng+'%2C+1000')
       .then( function( rawData ){
         // Tester la requête
         if( rawData.ok === true ){
@@ -41,8 +71,27 @@ if ("geolocation" in navigator) {
     // Un autre Layer
     /* https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png */
 
-    // Charger la liste des arbres
-    getTrees(coords.latitude, coords.longitude)
+    /*------------------------------------
+    // Old - Charger la liste des arbres
+    //------------------------------------*/
+    // getTrees(coords.latitude, coords.longitude)
+    //   .then(function(data){
+    //     console.log(data.records);
+    //
+    //     // Boucle sur la collection de données
+    //     data.records.map(function(item) {
+    //       var myIcon = L.divIcon({className: "my-div-icon"});
+    //       L.marker([item.geometry.coordinates[1], item.geometry.coordinates[0]], {icon: myIcon}).addTo(myMap)
+    //     })
+    //   })
+    //   .catch(function(error) {
+    //     console.error(error);
+    //   })
+
+    /*------------------------------------
+    // New - Charger la liste des arbres : with my position
+    //------------------------------------*/
+    getTrees(position.coords.latitude, position.coords.longitude)
       .then(function(data){
         console.log(data.records);
 
@@ -57,7 +106,6 @@ if ("geolocation" in navigator) {
       })
 
   });
-
 
 } else {
   /* la géolocalisation n'est pas disponible */
