@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  box-sizing: border-box;
+  background-color: #ffbb91;
+}
+
+.header__title {
+  margin: 0;
+  padding: 8px 16px;
+  color: #f6f5f5;
+  background-color: #ff8e6e;
+  border-radius: 4px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+/* 1a1c20 */
+#myMap {
+  height: 600px;
+}
